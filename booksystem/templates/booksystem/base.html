@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>火车票管理系统</title>
+
+    <!-- Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <!-- Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+
+    {% block js %}
+    {% endblock %}
+
+</head>
+<body style="background-color: #fefefe">
+<!-- 导航条 -->
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+
+        <!-- 商标 -->
+        <a class="navbar-brand" style="color: blue" href="{% url 'booksystem:index' %}"><strong>&#127846;MFYJ Railway</strong></a>
+
+        <!-- 伸缩按钮 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 伸缩内容 -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- 购票 -->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" style="color: blue" href="{% url 'booksystem:result' %}"><strong>购票</strong></a>
+                </li>
+                <!-- 用户中心 -->
+                <li class="nav-item">
+                    <a class="nav-link" style="color: blue" href="{% url 'booksystem:user_center' %}"><strong>用户中心</strong></a>
+                </li>
+                <!-- 登录 -->
+                <li class="nav-item">
+                    {% block login_display %}
+                    <!--登录之后这里变成问候和用户名-->
+                    <a class="nav-link" style="color: blue" href="{% url 'booksystem:login_user' %}"><strong>登录</strong></a>
+                    {% endblock %}
+                </li>
+                <!-- 退出登录 -->
+                <li class="nav-item">
+                    <a class="nav-link" style="color: blue" href="{% url 'booksystem:logout_user' %}"><strong>退出登录</strong></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

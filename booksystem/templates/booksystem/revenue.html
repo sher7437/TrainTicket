@@ -1,0 +1,173 @@
+{% extends 'booksystem/base.html' %}
+
+{% block login_display %}
+    <!-- 登录后导航栏显示为用户名 -->
+    <a class="nav-link" style="color: blue" href="#">欢迎您，管理员{{ username }}</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid" style="position:absolute; margin-top:1%; width: 90%; left: 5%">
+
+        <!-- 显示每周营收 -->
+        <table class="table table-bordered caption-top">
+            <caption style="font-size: 20px">每周营收</caption>
+            <thead class="table-light">
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">周次</th>
+                <th style="text-align: center">售出票数</th>
+                <th style="text-align: center">商务座收入（元）</th>
+                <th style="text-align: center">一等座收入（元）</th>
+                <th style="text-align: center">二等座收入（元）</th>
+                <th style="text-align: center">总收入（元）</th>
+            </tr>
+            </thead>
+            <tbody align="center">
+            {% for income in week_incomes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ income.metric }}</td>
+                <td>{{ income.ticket_sum }}</td>
+                <td>{{ income.high_incomes }}</td>
+                <td>{{ income.middle_incomes }}</td>
+                <td>{{ income.low_incomes }}</td>
+                <td>{{ income.total_incomes }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 显示每月营收 -->
+        <table class="table table-bordered caption-top">
+            <caption style="font-size: 20px">每月营收</caption>
+            <thead class="table-light">
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">月份</th>
+                <th style="text-align: center">售出票数</th>
+                <th style="text-align: center">商务座收入（元）</th>
+                <th style="text-align: center">一等座收入（元）</th>
+                <th style="text-align: center">二等座收入（元）</th>
+                <th style="text-align: center">总收入（元）</th>
+            </tr>
+            </thead>
+            <tbody align="center">
+            {% for income in month_incomes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ income.metric }}</td>
+                <td>{{ income.ticket_sum }}</td>
+                <td>{{ income.high_incomes }}</td>
+                <td>{{ income.middle_incomes }}</td>
+                <td>{{ income.low_incomes }}</td>
+                <td>{{ income.total_incomes }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 显示每年营收 -->
+        <table class="table table-bordered caption-top">
+            <caption style="font-size: 20px">每年营收</caption>
+            <thead class="table-light">
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">年份</th>
+                <th style="text-align: center">售出票数</th>
+                <th style="text-align: center">商务座收入（元）</th>
+                <th style="text-align: center">一等座收入（元）</th>
+                <th style="text-align: center">二等座收入（元）</th>
+                <th style="text-align: center">总收入（元）</th>
+            </tr>
+            </thead>
+            <tbody align="center">
+            {% for income in year_incomes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ income.metric }}</td>
+                <td>{{ income.ticket_sum }}</td>
+                <td>{{ income.high_incomes }}</td>
+                <td>{{ income.middle_incomes }}</td>
+                <td>{{ income.low_incomes }}</td>
+                <td>{{ income.total_incomes }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 显示已售票 -->
+        <table class="table table-hover caption-top">
+            <caption style="font-size: 20px">已售票</caption>
+            <thead>
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">乘客</th>
+                <th style="text-align: center">车次</th>
+                <th style="text-align: center">路线</th>
+                <th style="text-align: center">时间</th>
+                <th style="text-align: center">座次</th>
+                <th style="text-align: center">票价</th>
+                <th style="text-align: center">状态</th>
+            </tr>
+            </thead>
+            <tbody align="center">
+            {% for order in order_set %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.passenger_name }}</td>
+                <td>{{ order.train_name }}</td>
+                <td>{{ order.train_route }}</td>
+                <td>{{ order.train_ltime }}</td>
+                {% if order.train_level == "high" %}
+                <td>商务座</td>
+                {% elif order.train_level == "middle" %}
+                <td>一等座</td>
+                {% else %}
+                <td>二等座</td>
+                {% endif %}
+                <td>{{ order.train_price }}</td>
+                <td>已售出</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- 显示已退票 -->
+        <table class="table table-hover caption-top">
+            <caption style="font-size: 20px">已退票</caption>
+            <thead>
+            <tr>
+                <th style="text-align: center">编号</th>
+                <th style="text-align: center">乘客</th>
+                <th style="text-align: center">车次</th>
+                <th style="text-align: center">路线</th>
+                <th style="text-align: center">时间</th>
+                <th style="text-align: center">座次</th>
+                <th style="text-align: center">票价</th>
+                <th style="text-align: center">状态</th>
+            </tr>
+            </thead>
+            <tbody align="center">
+            {% for rorder in refund_set %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ rorder.passenger_name }}</td>
+                <td>{{ rorder.train_name }}</td>
+                <td>{{ rorder.train_route }}</td>
+                <td>{{ rorder.train_ltime }}</td>
+                {% if order.train_level == "high" %}
+                <td>商务座</td>
+                {% elif order.train_level == "middle" %}
+                <td>一等座</td>
+                {% else %}
+                <td>二等座</td>
+                {% endif %}
+                <td>{{ rorder.train_price }}</td>
+                <td>已退款</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'booksystem/base.html' %}
+
+{% block login_display %}
+<!-- 登录后导航栏显示为用户名 -->
+<a class="nav-link" style="color: blue" href="#">欢迎您，{{ username }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="main" style="margin-top: 20px; margin-left: 50px; margin-right: 50px;">
+    <!-- 个人车票 -->
+    <table class="table table-hover caption-top">
+        <caption style="font-size: 30px">本人车票</caption>
+        <thead>
+        <tr>
+            <th style="text-align: center">车次</th>
+            <th style="text-align: center">出发车站</th>
+            <th style="text-align: center">到达车站</th>
+            <th style="text-align: center">出发时间</th>
+            <th style="text-align: center">到达时间</th>
+            <th style="text-align: center">座次</th>
+            <th style="text-align: center">票价</th>
+            <th style="text-align: center">退票</th>
+        </tr>
+        </thead>
+        <tbody style="text-align: center">
+        {% for info in infos %}
+        <tr>
+            <td>{{ info.name }}</td>
+            <td>{{ info.leave_city }} {{ info.leave_station }}</td>
+            <td>{{ info.arrive_city }} {{ info.arrive_station }}</td>
+            <td>{{ info.leave_time }}</td>
+            <td>{{ info.arrive_time }}</td>
+            {% if info.level == "high" %}
+            <td>商务座</td>
+            {% elif info.level == "middle" %}
+            <td>一等座</td>
+            {% else %}
+            <td>二等座</td>
+            {% endif %}
+            <td>￥{{ info.price }}</td>
+            <td>
+                {% if info.state == "True" %}
+
+                <!-- 退票按钮触发模态框 -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#refund_modal{{forloop.counter}}">
+                    退票
+                </button>
+
+                <!-- 模态框 -->
+                <div class="modal fade" id="refund_modal{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel{{forloop.counter}}"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel{{forloop.counter}}">退票提醒</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                确定要退票吗？
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-primary" href="{% url 'booksystem:refund_ticket' info.name username info.level %}" role="button">确定</a>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <button type="button" class="btn btn-secondary" disabled>退票</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

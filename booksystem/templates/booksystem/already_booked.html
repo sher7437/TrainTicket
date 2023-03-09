@@ -1,0 +1,25 @@
+{% extends 'booksystem/base.html' %}
+
+{% block login_display %}
+<!-- 登录后导航栏显示为用户名 -->
+<a class="nav-link" style="color: blue" href="#">欢迎您，{{ username }}</a>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 100px">
+    <div class="alert" style="background-color: white; overflow: hidden">
+
+        <!-- 购票冲突，提示已经买过 -->
+        <div id="info_body" style="margin-left: 350px">
+            <p style="font-size: x-large">
+                <span style="font-size: 100px">&#127938;</span>这个已经买过啦！
+            </p>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div id="book_btns" style="margin-left: 1000px">
+            <a href="#" class="btn btn-info" style="width: 80px" onclick="history.back();">返回</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

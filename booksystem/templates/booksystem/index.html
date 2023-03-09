@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap5 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <!-- Bootstrap5 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+
+    <title>&#127846;火车票预订系统</title>
+    {% load static %}
+    <style>
+
+            body
+            {
+                background: url("{% static 'img/background.jpg' %}");
+                background-size: cover;
+            }
+
+    </style>
+
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">&#127846;MFYJ Railway</span>
+        <a class="navbar-brand" href="/booksystem/login_user/">登录</a>
+    </div>
+</nav>
+
+<div class="container-fluid" style="position:absolute; margin-top:10%; width: 35%; left: 12%">
+    <h1 style="color: white">去哪里？</h1>
+    <br>
+    <!-- 出行信息表单 -->
+    <form class="form-horizontal" action="{% url 'booksystem:result' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="leave_city" class="form-label" style="color: white">出发：</label>
+            <input type="text" class="form-control" id="leave_city" name="leave_city" placeholder="City">
+        </div>
+        <div class="mb-3">
+            <label for="arrive_city" class="form-label" style="color: white">到达：</label>
+            <input type="text" class="form-control" id="arrive_city" name="arrive_city" placeholder="City">
+        </div>
+        <div class="mb-3">
+            <label for="leave_date" class="form-label" style="color: white">出发日期：</label>
+            <input type="date" class="form-control" id="leave_date" name="leave_date" placeholder="Date">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-outline-light btn-lg">搜索</button>
+    </form>
+</div>
+
+</body>
+</html>

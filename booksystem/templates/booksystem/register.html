@@ -1,0 +1,34 @@
+{% extends 'booksystem/base.html' %}
+
+{% block content %}
+<div class="container-fluid" style="position:absolute; margin-top:7%; width: 30%; left: 35%">
+    <h1 align="center">注册账号</h1>
+    <br>
+    <!-- 错误信息 -->
+    {% for field in form %}
+    <span class="text-danger small">{{ field.errors }}</span>
+    {% endfor %}
+
+    <form class="form-horizontal" action="{% url 'booksystem:register' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="username">用户名：</label>
+            <input class="form-control" id="username" maxlength="10" name="username" type="text">
+        </div>
+        <div class="mb-5">
+            <label class="form-label" for="password">密码：</label>
+            <input class="form-control" id="password" maxlength="10" name="password" type="password">
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-outline-primary" style="width: 200px">注册</button>
+        </div>
+    </form>
+    <br>
+    <br>
+    <div align="center">
+        已经有账号？<a href="{% url 'booksystem:login_user' %}">点这里</a> 登录
+    </div>
+</div>
+
+{% endblock %}
+

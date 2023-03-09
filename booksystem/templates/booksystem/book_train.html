@@ -1,0 +1,133 @@
+{% extends 'booksystem/base.html' %}
+
+{% block login_display %}
+<!-- 登录后导航栏显示为用户名 -->
+<a class="nav-link" style="color: blue" href="#">欢迎您，{{ username }}</a>
+{% endblock %}
+
+{% block js %}
+<script>
+
+        function fill_form(t, u, l)
+        {
+            var name1 = document.getElementById("train_name");
+            name1.value = t;
+            var name2 = document.getElementById("username");
+            name2.value = u;
+            var name3 = document.getElementById("level");
+            name3.value = l;
+        }
+
+        function confirm()
+        {
+            var remain_seats = document.getElementById('remain_seats').innerHTML;
+            if (remain_seats > 0)
+            {
+                window.alert("购买成功！");
+                return true;
+            }
+            else
+            {
+                window.alert("没有座位了");
+                return false;
+            }
+        }
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="position:absolute; margin-top:10%; width: 95%; left: 3%">
+    <div class="alert" style="background-color: white; overflow: hidden">
+        <h3>订单确认</h3>
+        <div id="info_body" style="margin-left: 50px; margin-right: 50px">
+            <!-- 表格显示选票信息 -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="text-align: center">车次</th>
+                    <th style="text-align: center">出发车站</th>
+                    <th style="text-align: center">到达车站</th>
+                    <th style="text-align: center">出发时间</th>
+                    <th style="text-align: center">到达时间</th>
+                    <th style="text-align: center">座次</th>
+                    <th style="text-align: center">票价</th>
+                </tr>
+                </thead>
+                <tbody style="text-align: center">
+                <tr>
+                    <td>{{ train.name }}</td>
+                    <td>{{ train.leave_city }}{{ train.leave_station }}</td>
+                    <td>{{ train.arrive_city }}{{ train.arrive_station }}</td>
+                    <td>{{ train.leave_time }}</td>
+                    <td>{{ train.arrive_time }}</td>
+                    {% if level == "high" %}
+                    <td>商务座</td>
+                    <td>￥{{ train.high_price }}</td>
+                    {% elif level == "middle" %}
+                    <td>一等座</td>
+                    <td>￥{{ train.middle_price }}</td>
+                    {% else %}
+                    <td>二等座</td>
+                    <td>￥{{ train.low_price }}</td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <p>
+                将要购买 <strong style="font-size: large"> {{ train.name }} </strong> 车次的
+                <strong style="font-size: large">
+                    {% if level == "high" %}
+                    商务座
+                    {% elif level == "middle" %}
+                    一等座
+                    {% else %}
+                    二等座
+                    {% endif %}
+                </strong>
+                    ，此车的此座次还有
+                <strong id="remain_seats" style="font-size: xx-large; color: pink;">
+                    {% if level == "high" %}
+                    {{ train.high_capacity }}
+                    {% elif level == "middle" %}
+                    {{ train.middle_capacity }}
+                    {% else %}
+                    {{ train.low_capacity }}
+                    {% endif %}
+                </strong>
+                    张票
+            </p>
+
+            <!-- 表单提交将购票信息 -->
+            <div id="book_btns" align="right">
+                <form action="{% url 'booksystem:book_ticket_again' %}" method="post" onsubmit="return confirm()" style="display: inline">
+                    <input type="text" name="train_name" id="train_name" class="form-control" aria-describedby="train_name" style="display: none">
+                    <input type="text" name="username" id="username" class="form-control" aria-describedby="username" style="display: none">
+                    <input type="text" name="level" id="level" class="form-control" aria-describedby="level" style="display: none">
+                    <input class="btn btn-primary" style="width: 80px" value="确认" type="submit" onclick="fill_form('{{train.name}}', '{{username}}', '{{level}}')">
+                </form>
+                <a href="#" class="btn btn-danger" style="width: 80px" onclick="history.back();">返回</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div class="modal fade" id="success_modal" tabindex="-1" aria-labelledby="success_modal" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="success_modal_label">提示</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                订购成功！-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+{% endblock %}
